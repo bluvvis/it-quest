@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Найди скрытую кнопку</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .hidden-button {
+            display: none;
+        }
+        .hidden-button:active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Добро пожаловать на сайт!</h1>
+    <p>Попробуй найти скрытую кнопку...</p>
+    <button class="hidden-button" onclick="window.location.href='next_page.html'">Скрытая кнопка</button>
+</body>
+</html>
