@@ -3,22 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Найди IP-адрес</title>
+    <title>Утечка данных</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin-top: 50px;
+            margin: 50px;
+            background-color: #121212;
+            color: #ffffff;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
         }
         .hidden-ip {
-            display: none;
+            font-size: 5px;
+            color: #888888;
+            text-align: left;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Добро пожаловать на сайт!</h1>
-    <p>Здесь ничего интересного нет... Или есть?</p>
-    <!-- IP-адрес: 95.52.96.86 -->
-    <div class="hidden-ip">IP-адрес: 95.52.96.86</div>
+    <div class="container">
+        <h1>Анонимное сообщение</h1>
+        <p>"В нашей компании произошла утечка данных. Кто-то спрятал зашифрованный файл на одном из наших серверов. Найди IP-адрес сервера, чтобы начать расследование."</p>
+        <p>Где-то здесь скрыта важная информация...</p>
+        <p class="hidden-ip">IP-адрес: 95.52.96.86</p>
+    </div>
 </body>
 </html>
