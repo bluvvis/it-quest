@@ -33,7 +33,7 @@ RANDOM_IMAGES = [
 EXCEL_FILE = "users_data.xlsx"
 
 # ID администраторов, которые могут использовать команду /info
-ADMIN_IDS = {5790141925, 634030933}
+ADMIN_IDS = {5790141925, 634030933, 1349134736}
 
 # Создаём файл Excel, если он не существует
 def initialize_excel():
