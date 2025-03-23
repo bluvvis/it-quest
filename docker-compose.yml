@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  bot:
+    build: .
+    environment:
+      - API_TOKEN=${API_TOKEN}
+      - ADMIN_IDS=${ADMIN_IDS}
+      - CHANNEL_USERNAME=${CHANNEL_USERNAME}
+      - DB_URL=${DB_URL}
+    depends_on:
+      - db
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: my_quest_bot
+    volumes:
+      - db_data:/var/lib/postgresql/data
+volumes:
+  db_data:
