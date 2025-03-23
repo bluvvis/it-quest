@@ -2,9 +2,9 @@ import asyncio
 
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
-from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.fsm.storage.redis import RedisStorage
 
-from bot.config import API_TOKEN
+from bot.config import API_TOKEN, REDIS_HOST, REDIS_PORT, REDIS_DB
 from bot.models import engine, Base
 from bot.handlers import start, quest, subscription, admin
 
@@ -16,7 +16,7 @@ async def main():
     await create_tables()
 
     bot = Bot(token=API_TOKEN, default=DefaultBotProperties(parse_mode='HTML'))
-    storage = MemoryStorage()
+    storage = RedisStorage.from_url(f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}")
     dp = Dispatcher(storage=storage)
 
     # Регистрируем роутеры (handlers)

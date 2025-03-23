@@ -7,6 +7,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMar
 from aiogram.filters.state import StateFilter
 
 from bot.handlers.quest import RANDOM_IMAGES
+from bot.services.subscription_check import check_subscription
 from bot.states import QuestStates
 from bot.services.database import save_user_data, get_user
 from bot.utils.reminders import schedule_reminders
@@ -82,9 +83,29 @@ async def cmd_start(message: types.Message, state: FSMContext) -> None:
 
 
         else:
-            await state.clear()
-            await message.answer("Вы уже завершили квест. Чтобы пройти заново, используйте /reset.")
+            # await state.clear()
+            is_sub = await check_subscription(user_id, message.bot)
+            subscription_status = "Подписан" if is_sub else "Не подписан"
 
+            await save_user_data(user_id, username, "Квест завершён", subscription_status)
+
+            if subscription_status == "Не подписан":
+                await message.answer(
+                    "<b>Поздравляем!</b> Вы успешно прошли квест! 🎉\n\n"
+                    "Для участия в розыгрыше подпишитесь на канал:",
+                    reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[
+                        [types.InlineKeyboardButton(text="Подписаться на канал", url="https://t.me/innoprog")],
+                        [types.InlineKeyboardButton(text="Проверить подписку", callback_data="check_subscription")]
+                    ]),
+                )
+            else:
+                await message.answer(
+                    "<b>Поздравляем!</b> Вы успешно прошли квест и были добавлены в список участников розыгрыша! 🎉\n\n"
+                    "Скоро, в прямом эфире, мы объявим итоги нашего квеста в Telegram-канале! Не пропустите — ждем вас в эфире, удачи и до встречи! 😉\n\n",
+                    reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[
+                        [types.InlineKeyboardButton(text="Перейти в канал", url="https://t.me/innoprog")]
+                    ]),
+                )
     else:
         # Новый пользователь
         await state.clear()

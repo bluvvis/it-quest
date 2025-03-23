@@ -1,9 +1,14 @@
 import asyncio
 from aiogram import Bot
+from bot.services.database import get_user  # Функция для получения данных пользователя из БД
 
 async def send_reminder(bot: Bot, user_id: int, delay: int) -> None:
     await asyncio.sleep(delay)
     try:
+        user = await get_user(user_id)
+        # Если пользователь найден и его состояние равно "Квест завершён", не отправляем уведомление
+        if user and user.current_state == "Квест завершён":
+            return
         await bot.send_message(
             chat_id=user_id,
             text="⏰ Не забывай про наш квест! Возвращайся, чтобы пройти дальше."
