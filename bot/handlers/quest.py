@@ -44,7 +44,7 @@ async def find_ip_handler(message: types.Message, state: FSMContext) -> None:
             keyboard = types.InlineKeyboardMarkup(inline_keyboard=[
                 [types.InlineKeyboardButton(
                     text="Перейти к заданию 2",
-                    web_app=WebAppInfo(url="https://www.google.com/")
+                    web_app=WebAppInfo(url="https://www.google.com/search?q=%D0%BD%D0%B0%D0%B9%D1%82%D0%B8+%D0%B3%D0%BE%D1%80%D0%BE%D0%B4+%D0%BF%D0%BE+ip&sca_esv=65173d9604faf661&source=hp&ei=szngZ-fNObWK9u8P3uDBqQc&iflsig=ACkRmUkAAAAAZ-BHw4T7OhhaNM46qszBy5VRg0n-iz8J&ved=0ahUKEwin8-fD0qCMAxU1hf0HHV5wMHUQ4dUDCA4&uact=5&oq=%D0%BD%D0%B0%D0%B9%D1%82%D0%B8+%D0%B3%D0%BE%D1%80%D0%BE%D0%B4+%D0%BF%D0%BE+ip&gs_lp=Egdnd3Mtd2l6Ih3QvdCw0LnRgtC4INCz0L7RgNC-0LQg0L_QviBpcDIFEAAYgAQyBhAAGBYYHjIFEAAY7wUyCBAAGKIEGIkFMggQABiABBiiBEiwLlDBBViVKnAEeACQAQGYAfsBoAGYG6oBBTYuOS43uAEDyAEA-AEBmAIZoALtGagCCsICGhAAGIAEGLQCGNQDGOUCGLcDGIoFGOoCGIoDwgIKEC4YgAQYQxiKBcICChAAGIAEGEMYigXCAgkQABiABBgBGArCAg8QLhiABBgBGNEDGMcBGArCAgUQLhiABMICCBAuGIAEGNQCwgILEC4YgAQY0QMYxwGYA9MB4gMFEgExIEDxBTc69_lxyJYCkgcGOS4xMC42oAeunwGyBwY1LjEwLja4B-IZ&sclient=gws-wiz")
                 )]
             ])
             await message.answer(
