@@ -3,49 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Утечка данных</title>
+    <title>Найди скрытую кнопку</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin: 50px;
-            background-color: #121212;
-            color: #ffffff;
+            margin-top: 50px;
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            background-color: white; /* Фиксированный белый фон */
         }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            background: #1e1e1e;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-        }
-        .hidden-ip {
-            font-size: 5px;
-            color: #444444;
-            letter-spacing: -1px;
-            display: inline;
-        }
-        .image {
-            width: 100%;
-            max-width: 500px;
-            border-radius: 10px;
-            margin-top: 15px;
+        .hidden-button {
+            position: absolute;
+            width: 100px; /* Уменьшенный размер */
+            height: 100px;
+            opacity: 0; /* Полностью прозрачная */
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Анонимное сообщение</h1>
-        <p>"В нашей компании произошла утечка данных. Кто-то спрятал зашифрованный файл на одном из наших серверов. Найди его местоположение, чтобы начать расследование."</p>
+    <h1>Добро пожаловать на сайт!</h1>
+    <p>Попробуй найти скрытую кнопку...</p>
+    <p>Она где-то здесь, но её не видно! 😉</p>
 
-        <img class="image" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71" alt="Хакерский код">
-        
-        <p>Где-то здесь скрыта важная информация. Может быть, ты сможешь найти её среди мелких деталей, если будешь достаточно внимателен(ьна).</p>
+    <!-- Скрытая кнопка -->
+    <button class="hidden-button" onclick="window.location.href='next_page.html'"></button>
 
-        <p>Внимание, твой шанс — разгадать, что спрятано за всеми этими строками! <span class="hidden-ip">95.52.96.86</span> Ты близок к разгадке, но нужно ещё больше внимания.</p>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const button = document.querySelector('.hidden-button');
+            const maxX = window.innerWidth - button.offsetWidth;
+            const maxY = window.innerHeight - button.offsetHeight;
 
-        <p>Теперь пора идти к следующему шагу, ты на верном пути!</p>
-    </div>
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            button.style.left = `${randomX}px`;
+            button.style.top = `${randomY}px`;
+        });
+    </script>
 </body>
 </html>
