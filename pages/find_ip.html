@@ -12,7 +12,7 @@
             padding: 20px;
             height: 100vh;
             overflow: hidden;
-            background-color: white; /* Фиксированный белый фон */
+            background-color: white; /* Белый фон всегда */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -20,12 +20,13 @@
         }
         h1, p {
             max-width: 90%;
-            font-size: clamp(16px, 4vw, 24px); /* Адаптивный размер текста */
+            font-size: clamp(18px, 5vw, 28px); /* Читаемый текст на мобильных */
+            margin: 10px;
         }
         .hidden-button {
-            position: absolute;
-            width: 200px;
-            height: 200px;
+            position: fixed;
+            width: 350px;
+            height: 350px;
             opacity: 0;
             cursor: pointer;
         }
@@ -41,20 +42,20 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const button = document.querySelector('.hidden-button');
-            
+
             function positionButton() {
                 const maxX = window.innerWidth - button.offsetWidth;
                 const maxY = window.innerHeight - button.offsetHeight;
 
-                const randomX = Math.floor(Math.random() * maxX);
-                const randomY = Math.floor(Math.random() * maxY);
+                const randomX = Math.max(0, Math.floor(Math.random() * maxX));
+                const randomY = Math.max(0, Math.floor(Math.random() * maxY));
 
                 button.style.left = `${randomX}px`;
                 button.style.top = `${randomY}px`;
             }
 
             positionButton();
-            window.addEventListener("resize", positionButton); // Пересчет при изменении экрана
+            window.addEventListener("resize", positionButton);
         });
     </script>
 </body>
