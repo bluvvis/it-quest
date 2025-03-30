@@ -12,13 +12,14 @@
             position: relative;
             height: 100vh;
             overflow: hidden;
+            background-color: white; /* Фиксированный белый фон */
         }
         .hidden-button {
             position: absolute;
-            width: 500px; /* Увеличенный размер */
-            height: 500px;
+            width: 100px; /* Уменьшенный размер */
+            height: 100px;
             opacity: 0; /* Полностью прозрачная */
-            cursor: pointer; /* Курсор меняется при наведении */
+            cursor: pointer;
         }
     </style>
 </head>
@@ -31,16 +32,17 @@
     <button class="hidden-button" onclick="window.location.href='next_page.html'"></button>
 
     <script>
-        // Размещаем кнопку в случайном месте
-        const button = document.querySelector('.hidden-button');
-        const maxX = window.innerWidth - button.offsetWidth;
-        const maxY = window.innerHeight - button.offsetHeight;
+        document.addEventListener("DOMContentLoaded", () => {
+            const button = document.querySelector('.hidden-button');
+            const maxX = window.innerWidth - button.offsetWidth;
+            const maxY = window.innerHeight - button.offsetHeight;
 
-        const randomX = Math.floor(Math.random() * maxX);
-        const randomY = Math.floor(Math.random() * maxY);
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
 
-        button.style.left = `${randomX}px`;
-        button.style.top = `${randomY}px`;
+            button.style.left = `${randomX}px`;
+            button.style.top = `${randomY}px`;
+        });
     </script>
 </body>
 </html>
