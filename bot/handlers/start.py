@@ -158,3 +158,19 @@ async def cmd_clean(message: types.Message, state: FSMContext) -> None:
     await save_user_data(user_id, username, "Старт квеста")
     # Отправляем сообщение пользователю
     await message.answer("Ваш прогресс очищен. Теперь вы можете начать заново с команды /start.")
+
+@router.message(Command("check"))
+async def cmd_check_subscription(message: types.Message) -> None:
+    parts = message.text.split()
+    if len(parts) > 1:
+        try:
+            user_id = int(parts[1])
+        except ValueError:
+            await message.answer("Неверный формат ID пользователя. Пожалуйста, введите числовой ID.")
+            return
+    else:
+        user_id = message.from_user.id
+
+    is_sub = await check_subscription(user_id, message.bot)
+    status_text = "Подписан" if is_sub else "Не подписан"
+    await message.answer(f"Статус подписки для пользователя {user_id}: {status_text}")

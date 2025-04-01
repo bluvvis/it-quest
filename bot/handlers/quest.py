@@ -3,7 +3,7 @@ import random
 from aiogram import types, Router, F
 from aiogram.fsm.context import FSMContext
 from aiogram.filters.state import StateFilter
-from aiogram.types import WebAppInfo
+from aiogram.types import WebAppInfo, FSInputFile
 
 from bot.states import QuestStates
 from bot.config import IP_ADDRESS, CITY_NAME, PASSWORD
@@ -12,7 +12,7 @@ from bot.services.database import save_user_data
 router = Router()
 
 RANDOM_IMAGES = [
-    "https://usefoyer.com/ap/api/captcha?text=innohacker&type=text",
+    "https://ibb.co/YFbmtMLt"
 ]
 
 # Импорт функции проверки подписки

@@ -12,7 +12,7 @@ async def check_subscription_callback(callback: types.CallbackQuery) -> None:
     if is_subscribed:
         await save_user_data(user_id, username, "Подписка подтверждена", "Подписан")
         await callback.message.edit_reply_markup(None)
-        await callback.answer("Спасибо! Вы в списке участников. 🎉", show_alert=True)
+        await callback.answer("Спасибо! Вы в списке участников 🎉", show_alert=True)
     else:
         await save_user_data(user_id, username, "Подписка не подтверждена", "Не подписан")
-        await callback.answer("Вы ещё не подписались на канал. ❌", show_alert=True)
+        await callback.answer("Вы ещё не подписались на канал ❌", show_alert=True)
