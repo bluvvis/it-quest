@@ -8,17 +8,27 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin-top: 50px;
-            position: relative;
+            margin: 0;
+            padding: 20px;
             height: 100vh;
             overflow: hidden;
+            background-color: white; /* Белый фон всегда */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1, p {
+            max-width: 90%;
+            font-size: clamp(18px, 5vw, 28px); /* Читаемый текст на мобильных */
+            margin: 10px;
         }
         .hidden-button {
-            position: absolute;
-            width: 500px; /* Увеличенный размер */
-            height: 500px;
-            opacity: 0; /* Полностью прозрачная */
-            cursor: pointer; /* Курсор меняется при наведении */
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            opacity: 0;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -27,20 +37,26 @@
     <p>Попробуй найти скрытую кнопку...</p>
     <p>Она где-то здесь, но её не видно! 😉</p>
 
-    <!-- Скрытая кнопка -->
     <button class="hidden-button" onclick="window.location.href='next_page.html'"></button>
 
     <script>
-        // Размещаем кнопку в случайном месте
-        const button = document.querySelector('.hidden-button');
-        const maxX = window.innerWidth - button.offsetWidth;
-        const maxY = window.innerHeight - button.offsetHeight;
+        document.addEventListener("DOMContentLoaded", () => {
+            const button = document.querySelector('.hidden-button');
 
-        const randomX = Math.floor(Math.random() * maxX);
-        const randomY = Math.floor(Math.random() * maxY);
+            function positionButton() {
+                const maxX = window.innerWidth - button.offsetWidth;
+                const maxY = window.innerHeight - button.offsetHeight;
 
-        button.style.left = `${randomX}px`;
-        button.style.top = `${randomY}px`;
+                const randomX = Math.max(0, Math.floor(Math.random() * maxX));
+                const randomY = Math.max(0, Math.floor(Math.random() * maxY));
+
+                button.style.left = `${randomX}px`;
+                button.style.top = `${randomY}px`;
+            }
+
+            positionButton();
+            window.addEventListener("resize", positionButton);
+        });
     </script>
 </body>
 </html>
