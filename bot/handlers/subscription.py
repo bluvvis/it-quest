@@ -11,7 +11,13 @@ async def check_subscription_callback(callback: types.CallbackQuery) -> None:
     is_subscribed = await check_subscription(user_id, callback.bot)
     if is_subscribed:
         await save_user_data(user_id, username, "Подписка подтверждена", "Подписан")
-        await callback.message.edit_reply_markup(None)
+        await callback.message.edit_text(
+            "<b>Поздравляем!</b> Вы успешно прошли квест и были добавлены в список участников розыгрыша! 🎉\n\n"
+            "Скоро, в прямом эфире, мы объявим итоги нашего квеста в Telegram-канале! Не пропустите — ждем вас в эфире, удачи и до встречи! 😉\n\n",
+            reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[
+                [types.InlineKeyboardButton(text="Перейти в канал", url="https://t.me/innoprog")]
+            ])
+        )
         await callback.answer("Спасибо! Вы в списке участников 🎉", show_alert=True)
     else:
         await save_user_data(user_id, username, "Подписка не подтверждена", "Не подписан")
