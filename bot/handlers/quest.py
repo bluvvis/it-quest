@@ -58,7 +58,10 @@ async def find_ip_handler(message: types.Message, state: FSMContext) -> None:
         else:
             await message.answer("<b>Неправильный IP-адрес.</b> Попробуйте ещё раз! ❌")
     else:
-        await message.answer("<b>Это не похоже на IP-адрес.</b> Попробуйте ещё раз! ❌")
+        await message.answer("<b>Это не похоже на IP-адрес.</b> ❌\n\n"
+                             "💡 <i>Помните: IP-адрес состоит из четырёх чисел от 0 до 255, разделённых точками.</i>\n"
+                             "Например: <code>192.168.0.1</code>\n\n"
+                             "Попробуйте ввести ещё раз!")
 
 
 @router.message(StateFilter(QuestStates.find_city))
@@ -81,8 +84,8 @@ async def find_city_handler(message: types.Message, state: FSMContext) -> None:
         await message.answer("<b>Отлично!</b> Теперь нужно ввести пароль от сервера.")
 
         await message.answer_photo(
-            photo= random.choice(RANDOM_IMAGES),
-            caption = "<b>Задание 3:</b> Расшифруйте текст на картинке. Отправьте полученное слово ответным сообщением"
+            photo=random.choice(RANDOM_IMAGES),
+            caption="<b>Задание 3:</b> Расшифруйте текст на картинке. Отправьте полученное слово ответным сообщением"
         )
         await state.set_state(QuestStates.find_password)
     else:

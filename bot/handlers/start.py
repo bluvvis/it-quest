@@ -163,7 +163,10 @@ async def cmd_start(message: types.Message, state: FSMContext) -> None:
         await state.set_state(QuestStates.waiting_for_start)
 
 
-@router.message(F.text == "Я готов!", StateFilter(QuestStates.waiting_for_start))
+@router.message(
+    F.text.regexp(r"^(я\s+)?готов!?$|^да!?$|^поехали!?$|^можно\s+начинать!?$|^нач(нем|инаем)!?$"),
+    StateFilter(QuestStates.waiting_for_start)
+)
 async def handle_ready(message: types.Message, state: FSMContext) -> None:
     await message.answer(
         "<b>История:</b>\n\n"
