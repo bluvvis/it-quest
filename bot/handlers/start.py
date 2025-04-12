@@ -80,7 +80,6 @@ async def cmd_start(message: types.Message, state: FSMContext) -> None:
                     "Готов ли ты начать квест и помочь нам?",
                     reply_markup=keyboard
                 )
-                await state.clear()
 
             elif resume_state == QuestStates.find_city:
                 keyboard = types.InlineKeyboardMarkup(inline_keyboard=[
@@ -95,14 +94,11 @@ async def cmd_start(message: types.Message, state: FSMContext) -> None:
                     reply_markup=keyboard
                 )
 
-                await state.set_state(QuestStates.find_city)
-
             elif resume_state == QuestStates.find_password:
                 await message.answer_photo(
                     photo=random.choice(RANDOM_IMAGES),
                     caption="<b>Задание 3:</b> Расшифруйте текст на картинке. Отправьте полученное слово ответным сообщением",
                 )
-                await state.set_state(QuestStates.find_password)
 
             elif resume_state == QuestStates.find_hidden_button:
                 keyboard = InlineKeyboardMarkup(
@@ -117,8 +113,6 @@ async def cmd_start(message: types.Message, state: FSMContext) -> None:
                     "<b>Задание 4:</b> Найдите «невидимую» кнопку на сайте и нажмите на неё",
                     reply_markup=keyboard
                 )
-                await state.set_state(QuestStates.find_hidden_button)
-
 
 
         else:
