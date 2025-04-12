@@ -44,12 +44,12 @@ async def find_ip_handler(message: types.Message, state: FSMContext) -> None:
             keyboard = types.InlineKeyboardMarkup(inline_keyboard=[
                 [types.InlineKeyboardButton(
                     text="Перейти к заданию 2",
-                    web_app=WebAppInfo(url="https://2ip.io/ru/geoip/")
+                    web_app=WebAppInfo(url="https://bluvvis.github.io/it-quest/find_city_by_ip.html")
                 )]
             ])
             await message.answer(
-                "<b>Задание 2:</b> Введите IP-адрес и найдите город, к которому он привязан. "
-                "Название города в XIX веке — ключ к следующему этапу!",
+                "<b>Задание 2:</b> Используйте IP-адрес, полученный в предыдущем задании, чтобы определить, к какому городу он относится.\n\n"
+                "<b>Название этого города в XIX веке</b> станет ключом к следующему этапу. Отправьте ответ ответным сообщением",
                 reply_markup=keyboard,
             )
             await state.set_state(QuestStates.find_city)
@@ -77,11 +77,10 @@ async def find_city_handler(message: types.Message, state: FSMContext) -> None:
         await save_user_data(user_id, username, "Задание 2 выполнено", subscription_status)
 
         await message.answer("<b>Отлично!</b> Теперь нужно ввести пароль от сервера.")
-        # Inline-кнопка для перехода к заданию 3 через WebApp
 
         await message.answer_photo(
             photo= random.choice(RANDOM_IMAGES),
-            caption = "<b>Задание 3:</b> Расшифруйте текст на картинке (captcha)"
+            caption = "<b>Задание 3:</b> Расшифруйте текст на картинке. Отправьте полученное слово ответным сообщением"
         )
         await state.set_state(QuestStates.find_password)
     else:
@@ -115,7 +114,7 @@ async def find_password_handler(message: types.Message, state: FSMContext) -> No
             )]
         ])
         await message.answer(
-            "<b>Задание 4:</b> Найдите «невидимую» кнопку на сайте.",
+            "<b>Задание 4:</b> Найдите «невидимую» кнопку на сайте и нажмите на неё",
             reply_markup=keyboard,
         )
         await state.set_state(QuestStates.find_hidden_button)

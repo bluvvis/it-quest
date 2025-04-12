@@ -24,6 +24,7 @@ STATE_MAP = {
     "Квест завершён": None,  # завершённый квест
 }
 
+
 @router.message(CommandStart())
 async def cmd_start(message: types.Message, state: FSMContext) -> None:
     user_id = message.from_user.id
@@ -58,28 +59,32 @@ async def cmd_start(message: types.Message, state: FSMContext) -> None:
                 keyboard = types.InlineKeyboardMarkup(inline_keyboard=[
                     [types.InlineKeyboardButton(
                         text="Перейти к заданию 2",
-                        web_app=WebAppInfo(url="https://2ip.io/ru/geoip/")
+                        web_app=WebAppInfo(url="https://bluvvis.github.io/it-quest/find_city_by_ip.html")
                     )]
                 ])
                 await message.answer(
-                    "<b>Задание 2:</b> Введите IP-адрес 95.52.96.86 и найдите город, к которому он привязан. "
-                    "Название города в XIX веке — ключ к следующему этапу!",
+                    "<b>Задание 2:</b> Определите, к какому городу привязан IP-адрес 95.52.96.86.\n\n"
+                    "Именно название этого города в XIX веке станет ключом к следующему этапу. Отправьте ответ ответным сообщением.",
                     reply_markup=keyboard
                 )
 
             elif resume_state == QuestStates.find_password:
                 await message.answer_photo(
                     photo=random.choice(RANDOM_IMAGES),
-                    caption="<b>Задание 3:</b> Расшифруйте текст на картинке (captcha).",
+                    caption="<b>Задание 3:</b> Расшифруйте текст на картинке. Отправьте полученное слово ответным сообщением",
                 )
 
             elif resume_state == QuestStates.find_hidden_button:
-                keyboard = InlineKeyboardMarkup(inline_keyboard=[
-                    [InlineKeyboardButton(text="Перейти к заданию 4",
-                                          url="https://bluvvis.github.io/it-quest/hidden_button.html")]
-                ])
+                keyboard = InlineKeyboardMarkup(
+                    inline_keyboard=[[
+                        InlineKeyboardButton(
+                            text="Перейти к заданию 4",
+                            web_app=WebAppInfo(url="https://bluvvis.github.io/it-quest/hidden_button.html")
+                        )
+                    ]]
+                )
                 await message.answer(
-                    "<b>Задание 4:</b> Найдите «невидимую» кнопку на сайте.",
+                    "<b>Задание 4:</b> Найдите «невидимую» кнопку на сайте и нажмите на неё",
                     reply_markup=keyboard
                 )
 
@@ -141,10 +146,11 @@ async def handle_ready(message: types.Message, state: FSMContext) -> None:
     )
     # Создаём inline-кнопку для перехода к заданию 1 через WebApp
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="Перейти к заданию 1", web_app=WebAppInfo(url="https://bluvvis.github.io/it-quest/find_ip.html"))]
+        [InlineKeyboardButton(text="Перейти к заданию 1",
+                              web_app=WebAppInfo(url="https://bluvvis.github.io/it-quest/find_ip.html"))]
     ])
     await message.answer(
-        "<b>Задание 1:</b> Найдите IP-адрес на сайте.",
+        "<b>Задание 1:</b> Найдите IP-адрес на сайте и отправьте его ответным сообщением",
         reply_markup=keyboard
     )
     await state.set_state(QuestStates.find_ip)
@@ -160,6 +166,7 @@ async def cmd_clean(message: types.Message, state: FSMContext) -> None:
     await save_user_data(user_id, username, "Старт квеста")
     # Отправляем сообщение пользователю
     await message.answer("Ваш прогресс очищен. Теперь вы можете начать заново с команды /start.")
+
 
 @router.message(Command("check"))
 async def cmd_check_subscription(message: types.Message) -> None:
