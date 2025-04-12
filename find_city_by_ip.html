@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Проверка IP</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    html {
+      height: 100%;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #74ABE2, #5563DE);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      padding: 10px;
+    }
+    .obertka {
+      width: 100%;
+      max-width: 600px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+      padding: 30px 25px;
+      margin: 30px auto;
+    }
+    h2 {
+      margin-top: 0;
+      text-align: center;
+      color: #333;
+      font-size: 26px;
+    }
+    .pole-vvoda {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin-bottom: 8px;
+      color: #555;
+      font-size: 14px;
+    }
+    input[type="text"] {
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      outline: none;
+      transition: border 0.3s ease;
+    }
+    input[type="text"]:focus {
+      border-color: #5563DE;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      background-color: #5563DE;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #4453b0;
+    }
+    #informaciya, #karta {
+      display: none;
+    }
+    #informaciya {
+      margin-top: 20px;
+      background: #f1f3f5;
+      padding: 15px;
+      border-radius: 6px;
+      color: #333;
+      line-height: 1.6;
+    }
+    #karta {
+      height: 300px;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .podval {
+      margin-top: 25px;
+      text-align: center;
+      color: #444;
+      font-size: 14px;
+      font-weight: normal;
+    }
+  </style>
+</head>
+<body>
+  <div class="obertka">
+    <h2>Проверка IP-адреса</h2>
+    <div class="pole-vvoda">
+      <label for="vvodIP">Введите IP адрес:</label>
+      <input type="text" id="vvodIP" placeholder="8.8.8.8">
+    </div>
+    <button onclick="poluchitInformaciyu()">Получить информацию</button>
+    <div id="informaciya"></div>
+    <div id="karta"></div>
+    <div class="podval">
+      Название города в XIX веке — ключ к следующему этапу! Отправьте ответ боту.
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    let karta;
+    // Инициализация или обновление карты
+    function initKarta(shirota, dolgota) {
+      const elementKarty = document.getElementById("karta");
+      elementKarty.style.display = "block";
+
+      if (karta) {
+        karta.setView([shirota, dolgota], 13);
+        karta.eachLayer(sloy => { if (sloy instanceof L.Marker) karta.removeLayer(sloy); });
+      } else {
+        karta = L.map('karta').setView([shirota, dolgota], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '© OpenStreetMap'
+        }).addTo(karta);
+      }
+      L.marker([shirota, dolgota]).addTo(karta);
+    }
+
+    // Запрос данных по IP через API ip-api.com
+    function poluchitInformaciyu() {
+      const ip = document.getElementById("vvodIP").value.trim();
+      const blokInformacii = document.getElementById("informaciya");
+      blokInformacii.style.display = "none";
+
+      if (!ip) {
+        alert("Пожалуйста, введите IP адрес");
+        return;
+      }
+
+      blokInformacii.innerHTML = "Загрузка данных...";
+      blokInformacii.style.display = "block";
+
+      fetch('http://ip-api.com/json/' + ip + '?lang=ru')
+        .then(otvet => otvet.json())
+        .then(dannie => {
+          if (dannie.status === "success") {
+            let tekst = `<p><strong>Город:</strong> ${dannie.city}</p>`;
+            tekst += `<p><strong>Страна:</strong> ${dannie.country}</p>`;
+            tekst += `<p><strong>Регион:</strong> ${dannie.regionName}</p>`;
+            tekst += `<p><strong>Почтовый индекс:</strong> ${dannie.zip}</p>`;
+            tekst += `<p><strong>Координаты:</strong> ${dannie.lat}, ${dannie.lon}</p>`;
+            tekst += `<p><strong>Часовой пояс:</strong> ${dannie.timezone}</p>`;
+            blokInformacii.innerHTML = tekst;
+            initKarta(dannie.lat, dannie.lon);
+          } else {
+            blokInformacii.innerHTML = "Ошибка: " + dannie.message;
+          }
+        })
+        .catch(() => {
+          blokInformacii.innerHTML = "Ошибка при получении данных";
+        });
+    }
+  </script>
+</body>
+</html>
