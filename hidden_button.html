@@ -1,62 +1,72 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Найди скрытую кнопку</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-            height: 100vh;
-            overflow: hidden;
-            background-color: white; /* Белый фон всегда */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        h1, p {
-            max-width: 90%;
-            font-size: clamp(18px, 5vw, 28px); /* Читаемый текст на мобильных */
-            margin: 10px;
-        }
-        .hidden-button {
-            position: fixed;
-            width: 350px;
-            height: 350px;
-            opacity: 0;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Найди скрытую кнопку</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      height: 100vh;
+      overflow: hidden;
+      background-color: white; /* Белый фон всегда */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    h1, p {
+      max-width: 90%;
+      font-size: clamp(18px, 5vw, 28px); /* Читаемый текст на мобильных */
+      margin: 10px;
+    }
+    .hidden-button {
+      position: fixed;
+      width: 350px;
+      height: 350px;
+      opacity: 0;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <h1>Добро пожаловать на сайт!</h1>
-    <p>Попробуй найти скрытую кнопку...</p>
-    <p>Она где-то здесь, но её не видно! 😉</p>
+  <h1>Добро пожаловать на сайт!</h1>
+  <p>Попробуй найти скрытую кнопку...</p>
+  <p>Она где-то здесь, но её не видно! 😉</p>
 
-    <button class="hidden-button" onclick="window.location.href='https://t.me/innoprog_quest_bot?start=finish'"></button>
+  <button class="hidden-button" onclick="openLink()"></button>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const button = document.querySelector('.hidden-button');
+  <script>
+    // Функция открывающая ссылку через Telegram или стандартным способом
+    function openLink() {
+      const url = 'https://t.me/innoprog_quest_bot?start=finish';
+      if (window.Telegram && Telegram.WebApp && typeof Telegram.WebApp.openTelegramLink === 'function') {
+        Telegram.WebApp.openTelegramLink(url);
+      } else {
+        window.location.href = url;
+      }
+    }
 
-            function positionButton() {
-                const maxX = window.innerWidth - button.offsetWidth;
-                const maxY = window.innerHeight - button.offsetHeight;
-
-                const randomX = Math.max(0, Math.floor(Math.random() * maxX));
-                const randomY = Math.max(0, Math.floor(Math.random() * maxY));
-
-                button.style.left = `${randomX}px`;
-                button.style.top = `${randomY}px`;
-            }
-
-            positionButton();
-            window.addEventListener("resize", positionButton);
-        });
-    </script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const button = document.querySelector('.hidden-button');
+  
+      function positionButton() {
+        const maxX = window.innerWidth - button.offsetWidth;
+        const maxY = window.innerHeight - button.offsetHeight;
+  
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor(Math.random() * maxY);
+  
+        button.style.left = randomX + 'px';
+        button.style.top = randomY + 'px';
+      }
+  
+      positionButton();
+      window.addEventListener("resize", positionButton);
+    });
+  </script>
 </body>
 </html>
