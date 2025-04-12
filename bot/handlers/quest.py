@@ -8,6 +8,8 @@ from aiogram.types import WebAppInfo, FSInputFile
 from bot.states import QuestStates
 from bot.config import IP_ADDRESS, CITY_NAME, PASSWORD
 from bot.services.database import save_user_data
+from bot.services.database import save_user_data
+from bot.services.subscription_check import check_subscription
 
 router = Router()
 
@@ -135,9 +137,6 @@ async def find_hidden_button_handler(message: types.Message, state: FSMContext) 
 
 
 async def finish_quest(message: types.Message, state: FSMContext) -> None:
-    from bot.services.database import save_user_data
-    from bot.services.subscription_check import check_subscription
-
     user_id = message.from_user.id
     username = message.from_user.username or message.from_user.full_name
     is_sub = await check_subscription(user_id, message.bot)
