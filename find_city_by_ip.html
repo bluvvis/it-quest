@@ -6,10 +6,8 @@
   <title>Проверка IP</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    html {
+    html, body {
       height: 100%;
-    }
-    body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #74ABE2, #5563DE);
@@ -18,7 +16,9 @@
       background-position: center;
       background-attachment: fixed;
       padding: 10px;
+      box-sizing: border-box;
     }
+
     .obertka {
       width: 100%;
       max-width: 600px;
@@ -27,23 +27,28 @@
       box-shadow: 0 10px 20px rgba(0,0,0,0.15);
       padding: 30px 25px;
       margin: 30px auto;
+      box-sizing: border-box;
     }
+
     h2 {
       margin-top: 0;
       text-align: center;
       color: #333;
       font-size: 26px;
     }
+
     .pole-vvoda {
       margin-bottom: 20px;
       display: flex;
       flex-direction: column;
     }
+
     label {
       margin-bottom: 8px;
       color: #555;
       font-size: 14px;
     }
+
     input[type="text"] {
       padding: 12px;
       font-size: 16px;
@@ -52,9 +57,11 @@
       outline: none;
       transition: border 0.3s ease;
     }
+
     input[type="text"]:focus {
       border-color: #5563DE;
     }
+
     button {
       width: 100%;
       padding: 14px;
@@ -66,12 +73,15 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
+
     button:hover {
       background-color: #4453b0;
     }
+
     #informaciya, #karta {
       display: none;
     }
+
     #informaciya {
       margin-top: 20px;
       background: #f1f3f5;
@@ -79,13 +89,16 @@
       border-radius: 6px;
       color: #333;
       line-height: 1.6;
+      word-wrap: break-word;
     }
+
     #karta {
       height: 300px;
       margin-top: 20px;
       border: 1px solid #ccc;
       border-radius: 6px;
     }
+
     .podval {
       margin-top: 25px;
       text-align: center;
@@ -93,7 +106,37 @@
       font-size: 14px;
       font-weight: normal;
     }
+
+    /* Мобильная адаптация */
+    @media (max-width: 480px) {
+      .obertka {
+        padding: 20px 15px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+
+      input[type="text"] {
+        font-size: 15px;
+        padding: 10px;
+      }
+
+      button {
+        font-size: 15px;
+        padding: 12px;
+      }
+
+      .podval {
+        font-size: 13px;
+      }
+
+      #karta {
+        height: 250px;
+      }
+    }
   </style>
+
 </head>
 <body>
   <div class="obertka">
@@ -145,18 +188,18 @@
       blokInformacii.innerHTML = "Загрузка данных...";
       blokInformacii.style.display = "block";
 
-      fetch('https://ipwho.is/' + ip + '?lang=ru')
+      fetch('https://ipwho.is/' + ip + "?lang=ru")
         .then(otvet => otvet.json())
         .then(dannie => {
-          if (dannie.status === "success") {
+          if (dannie.success) {
             let tekst = `<p><strong>Город:</strong> ${dannie.city}</p>`;
             tekst += `<p><strong>Страна:</strong> ${dannie.country}</p>`;
-            tekst += `<p><strong>Регион:</strong> ${dannie.regionName}</p>`;
-            tekst += `<p><strong>Почтовый индекс:</strong> ${dannie.zip}</p>`;
-            tekst += `<p><strong>Координаты:</strong> ${dannie.lat}, ${dannie.lon}</p>`;
-            tekst += `<p><strong>Часовой пояс:</strong> ${dannie.timezone}</p>`;
+            tekst += `<p><strong>Регион:</strong> ${dannie.region}</p>`;
+            tekst += `<p><strong>Почтовый индекс:</strong> ${dannie.postal}</p>`;
+            tekst += `<p><strong>Координаты:</strong> ${dannie.latitude}, ${dannie.longitude}</p>`;
+            tekst += `<p><strong>Часовой пояс:</strong> ${dannie.timezone?.id || "неизвестно"}</p>`;
             blokInformacii.innerHTML = tekst;
-            initKarta(dannie.lat, dannie.lon);
+            initKarta(dannie.latitude, dannie.longitude);
           } else {
             blokInformacii.innerHTML = "Ошибка: " + dannie.message;
           }
