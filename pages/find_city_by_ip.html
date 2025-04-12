@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
     html, body {
-      height: 100%;
+      min-height: 100vh;
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #74ABE2, #5563DE);
@@ -136,7 +136,6 @@
       }
     }
   </style>
-
 </head>
 <body>
   <div class="obertka">
@@ -156,25 +155,28 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
     let karta;
-    // Инициализация или обновление карты
+    // Инициализация или обновление карты без атрибуционного контроля
     function initKarta(shirota, dolgota) {
       const elementKarty = document.getElementById("karta");
       elementKarty.style.display = "block";
 
       if (karta) {
         karta.setView([shirota, dolgota], 13);
-        karta.eachLayer(sloy => { if (sloy instanceof L.Marker) karta.removeLayer(sloy); });
+        karta.eachLayer(sloy => {
+          if (sloy instanceof L.Marker) karta.removeLayer(sloy);
+        });
       } else {
-        karta = L.map('karta').setView([shirota, dolgota], 13);
+        // Отключаем атрибуцию через опцию attributionControl
+        karta = L.map('karta', { attributionControl: false }).setView([shirota, dolgota], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
-          attribution: '© OpenStreetMap'
+          attribution: '' // убираем дополнительную надпись
         }).addTo(karta);
       }
       L.marker([shirota, dolgota]).addTo(karta);
     }
 
-    // Запрос данных по IP через API ip-api.com
+    // Запрос данных по IP через API ipwho.is
     function poluchitInformaciyu() {
       const ip = document.getElementById("vvodIP").value.trim();
       const blokInformacii = document.getElementById("informaciya");
