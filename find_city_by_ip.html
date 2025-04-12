@@ -145,7 +145,7 @@
       blokInformacii.innerHTML = "Загрузка данных...";
       blokInformacii.style.display = "block";
 
-      fetch('http://ip-api.com/json/' + ip + '?lang=ru')
+      fetch('https://ip-api.com/json/' + ip + '?lang=ru')
         .then(otvet => otvet.json())
         .then(dannie => {
           if (dannie.status === "success") {
