@@ -1,4 +1,5 @@
 import random
+import re
 
 from aiogram import types, Router, F
 from aiogram.filters import CommandStart, Command
@@ -170,8 +171,8 @@ async def cmd_start(message: types.Message, state: FSMContext) -> None:
         r"|^поехали(!+)?$"
         r"|^можно\s+начинать(!+)?$"
         r"|^нач(нем|инаем)(!+)?$"
-        r"|^старт(!+)?$"
-        r"|^по\s+ехали(!+)?$"
+        r"|^старт(!+)?$",
+        flags=re.IGNORECASE
     ),
     StateFilter(QuestStates.waiting_for_start)
 )
