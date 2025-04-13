@@ -45,7 +45,7 @@
     function openLink() {
       const url = 'https://t.me/innoprog_quest_bot?start=finish';
       if (window.Telegram && Telegram.WebApp && typeof Telegram.WebApp.openTelegramLink === 'function') {
-        window.Telegram.WebAp.openTelegramLink(url);
+        window.location.href = url;
         window.Telegram.WebApp.close();
       } else {
         window.location.href = url;
