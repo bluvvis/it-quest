@@ -164,7 +164,15 @@ async def cmd_start(message: types.Message, state: FSMContext) -> None:
 
 
 @router.message(
-    F.text.regexp(r"^(я\s+)?готов!?$|^да!?$|^поехали!?$|^можно\s+начинать!?$|^нач(нем|инаем)!?$"),
+    F.text.regexp(
+        r"^(я\s+)?готов[а]?(!+)?$"
+        r"|^да(!+)?$"
+        r"|^поехали(!+)?$"
+        r"|^можно\s+начинать(!+)?$"
+        r"|^нач(нем|инаем)(!+)?$"
+        r"|^старт(!+)?$"
+        r"|^по\s+ехали(!+)?$"
+    ),
     StateFilter(QuestStates.waiting_for_start)
 )
 async def handle_ready(message: types.Message, state: FSMContext) -> None:
